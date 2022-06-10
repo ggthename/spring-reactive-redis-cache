@@ -1,11 +1,11 @@
 package org.my.reactor;
 
-import com.sktelecom.di.reactor.annotation.ReactiveRedisCacheable;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.my.reactor.annotation.ReactiveRedisCacheable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.ReactiveRedisTemplate;
 import org.springframework.stereotype.Component;
@@ -31,7 +31,7 @@ public class ReactiveRedisCacheAspect {
         this.reactiveRedisTemplate = reactiveRedisTemplate;
     }
 
-    @Pointcut("@annotation(com.sktelecom.di.reactor.annotation.ReactiveRedisCacheable)")
+    @Pointcut("@annotation(org.my.reactor.annotation.ReactiveRedisCacheable)")
     public void pointCut() {
     }
 
