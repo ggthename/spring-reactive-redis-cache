@@ -1,0 +1,4 @@
+# Run
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+org.my.reactor.ReactiveRedisCacheManager
+org.my.reactor.ReactiveRedisCacheAspect
