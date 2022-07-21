@@ -25,3 +25,12 @@
  (주의 : Cache저장소에 접근하는 부분의 구현체에서 blocking요소가 발생할 경우 서비스에 영향을 줄 수 있음)
 - ReactiveRedisTemplate에서 반환하는 타입을 Mono <T> 로 사용
  (추후 타입 및 Template주입에 대한 개선이 필요함)
+
+<사용 설명-maven기준>
+- git 소스 다운로드 후 mvn install
+- 사용을 원하는 곳에서 다음과 같이 dependency 추가
+  <dependency>
+       <groupId>org.my</groupId>
+       <artifactId>spring-reactive-redis-cache</artifactId>
+       <version>0.0.1-SNAPSHOT</version>
+   </dependency>
