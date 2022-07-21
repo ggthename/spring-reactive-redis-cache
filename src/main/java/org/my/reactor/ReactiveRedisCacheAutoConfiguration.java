@@ -21,4 +21,10 @@ public class ReactiveRedisCacheAutoConfiguration {
     public ReactiveRedisCacheManager reactiveRedisCacheManager(ReactiveRedisProperties reactiveRedisProperties){
         return new ReactiveRedisCacheManager(reactiveRedisProperties);
     }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public ReactiveRedisProperties reactiveRedisProperties(){
+        return new ReactiveRedisProperties();
+    }
 }
