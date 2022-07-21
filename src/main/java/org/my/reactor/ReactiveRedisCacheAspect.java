@@ -5,6 +5,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.my.reactor.annotation.ReactiveRedisCacheEvict;
 import org.my.reactor.annotation.ReactiveRedisCacheable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.ReactiveRedisTemplate;
@@ -32,10 +33,14 @@ public class ReactiveRedisCacheAspect {
     }
 
     @Pointcut("@annotation(org.my.reactor.annotation.ReactiveRedisCacheable)")
-    public void pointCut() {
+    public void cacheablePointCut() {
     }
 
-    @Around(value = "pointCut()")
+    @Pointcut("@annotation(org.my.reactor.annotation.ReactiveRedisCacheEvict)")
+    public void cacheEvictPointCut() {
+    }
+
+    @Around(value = "cacheablePointCut()")
     public Mono getReactiveRedisCache(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         MethodSignature signature = (MethodSignature) proceedingJoinPoint.getSignature();
         Method method = signature.getMethod();
@@ -51,6 +56,20 @@ public class ReactiveRedisCacheAspect {
                 throw new RuntimeException(e);
             }
         }, this.reactiveRedisTemplate);
+
+    }
+
+    @Around(value = "cacheEvictPointCut()")
+    public Mono<Void> cacheEvictPointCut(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+        MethodSignature signature = (MethodSignature) proceedingJoinPoint.getSignature();
+        Method method = signature.getMethod();
+
+        ReactiveRedisCacheEvict reactiveRedisCachevict = method.getAnnotation(ReactiveRedisCacheEvict.class);
+        String cacheName = reactiveRedisCachevict.name();
+        String cacheKey = reactiveRedisCachevict.key();
+        Object[] args = proceedingJoinPoint.getArgs();
+
+        return reactiveRedisCacheManager.deleteCache(cacheName, generateKey(args), this.reactiveRedisTemplate);
 
     }
 

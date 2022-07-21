@@ -40,4 +40,18 @@ public class ReactiveRedisCacheManager {
                         )
                 );
     }
+
+    public <T> Mono<Void> deleteCache(String cacheName, Object cacheKey, ReactiveRedisTemplate<String, T> reactiveRedisTemplate){
+
+        String prefix = cacheName;
+        String cacheNameKey = prefix + "::" + cacheKey.toString();
+
+        CacheMono
+                .lookup(k-> reactiveRedisTemplate.opsForValue()
+                        .delete(k)
+                        .map(Signal::next), cacheNameKey);
+
+        return Mono.empty().then();
+    }
+
 }
