@@ -1,6 +1,7 @@
 package org.my.reactor;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.ReactiveRedisTemplate;
 import org.springframework.stereotype.Component;
 import reactor.cache.CacheMono;
@@ -11,11 +12,15 @@ import java.time.Duration;
 import java.util.Optional;
 import java.util.function.Supplier;
 
-@RequiredArgsConstructor
 @Component
 public class ReactiveRedisCacheManager {
 
     private ReactiveRedisProperties reactiveRedisProperties;
+
+    @Autowired
+    public ReactiveRedisCacheManager(ReactiveRedisProperties reactiveRedisProperties){
+        this.reactiveRedisProperties=reactiveRedisProperties;
+    }
 
     public <T> Mono<T> findCacheMono(String cacheName, Object cacheKey, Supplier<Mono<T>> retriever, ReactiveRedisTemplate<String, T> reactiveRedisTemplate){
 
