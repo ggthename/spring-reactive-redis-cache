@@ -29,3 +29,8 @@
 <사용 설명-maven기준>
 - git 소스 다운로드 후 mvn install
 - 사용을 원하는 곳에서 다음과 같이 dependency 추가
+  <dependency>
+       <groupId>org.my</groupId>
+       <artifactId>spring-reactive-redis-cache</artifactId>
+       <version>0.0.1-SNAPSHOT</version>
+   </dependency>
